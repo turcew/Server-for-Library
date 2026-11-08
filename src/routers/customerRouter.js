@@ -11,7 +11,7 @@ router
   .route("/")
   .get(customerController.getCustomers)
   .post(validateCustomer, customerController.createCustomer)
-  .put(customerController.updateCustomer);
+  .put(validateCustomer, customerController.updateCustomer);
 router
   .route("/:customerId")
   .get(customerController.getCustomersById)

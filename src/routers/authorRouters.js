@@ -11,7 +11,7 @@ router
   .route("/")
   .get(authorController.getAuthors)
   .post(validateAuthor, authorController.createAuthor)
-  .put(authorController.updateAuthor);
+  .put(validateAuthor, authorController.updateAuthor);
 router
   .route("/:authorId")
   .get(authorController.getAuthorsById)

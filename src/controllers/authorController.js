@@ -1,7 +1,7 @@
 const db = require("../../db");
 
 class AuthorController {
-  async getAuthors(req, res) {
+  async getAuthors(req, res, next) {
     try {
       const authors = await db.query(
         `SELECT full_name, email, nationality_id
@@ -11,11 +11,11 @@ class AuthorController {
       res.json(authors.rows);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      next(error);
     }
   }
 
-  async getAuthorsById(req, res) {
+  async getAuthorsById(req, res, next) {
     try {
       const {
         params: { authorId },
@@ -41,11 +41,11 @@ class AuthorController {
       res.json(author.rows[0]);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      next(error);
     }
   }
 
-  async createAuthor(req, res) {
+  async createAuthor(req, res, next) {
     try {
       const { full_name, email, nationality } = req.body;
       const newAuthor = await db.query(
@@ -57,11 +57,11 @@ class AuthorController {
       res.status(201).json(newAuthor.rows[0]);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      next(error);
     }
   }
 
-  async updateAuthor(req, res) {
+  async updateAuthor(req, res, next) {
     try {
       const { full_name, email, nationality, id } = req.body;
       const updatedAuthor = await db.query(
@@ -74,11 +74,11 @@ class AuthorController {
       res.json(updatedAuthor.rows[0]);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      next(error);
     }
   }
 
-  async deleteAuthor(req, res) {
+  async deleteAuthor(req, res, next) {
     try {
       const {
         params: { authorId },
@@ -94,7 +94,7 @@ class AuthorController {
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      next(error);
     }
   }
 }

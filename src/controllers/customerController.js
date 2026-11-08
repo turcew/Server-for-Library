@@ -1,7 +1,7 @@
 const db = require("../../db");
 
 class CustomerController {
-  async getCustomers(req, res) {
+  async getCustomers(req, res, next) {
     try {
       const customers = await db.query(
         `SELECT id, full_name, email, phone
@@ -11,11 +11,11 @@ class CustomerController {
       res.json(customers.rows);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      next(error);
     }
   }
 
-  async getCustomersById(req, res) {
+  async getCustomersById(req, res, next) {
     try {
       const {
         params: { customerId },
@@ -35,11 +35,11 @@ class CustomerController {
       res.json(customer.rows[0]);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      next(error);
     }
   }
 
-  async createCustomer(req, res) {
+  async createCustomer(req, res, next) {
     try {
       const { full_name, email, phone, password } = req.body;
       const newCustomer = await db.query(
@@ -51,11 +51,11 @@ class CustomerController {
       res.status(201).json(newCustomer.rows[0]);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      next(error);
     }
   }
 
-  async updateCustomer(req, res) {
+  async updateCustomer(req, res, next) {
     try {
       const { full_name, email, phone, password, id } = req.body;
       const updatedCustomer = await db.query(
@@ -68,11 +68,11 @@ class CustomerController {
       res.json(updatedCustomer.rows[0]);
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      next(error);
     }
   }
 
-  async deleteCustomer(req, res) {
+  async deleteCustomer(req, res, next) {
     try {
       const {
         params: { customerId },
@@ -88,7 +88,7 @@ class CustomerController {
       }
     } catch (error) {
       console.log(error);
-      res.status(500).json({ error: "Internal server error" });
+      next(error);
     }
   }
 }

@@ -11,7 +11,7 @@ router
   .route("/")
   .get(bookController.getBooks)
   .post(validateBook, bookController.createBook)
-  .put(bookController.updateBook);
+  .put(validateBook, bookController.updateBook);
 router
   .route("/:bookId")
   .get(bookController.getBooksById)
